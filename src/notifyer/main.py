@@ -29,7 +29,7 @@ def get_presences():
 
 def get_absences():
     """returns all the students that were absent from the mensa"""
-    pass
+    return [x for x in get_students_today() if x not in get_presences()]
 
 def get_undefined():
     """returns an array of the names of people that soud not have been in the mensa"""
