@@ -1,67 +1,49 @@
+import smtplib, ssl
+from src.classes.student import Student
 
-def send_mail():
+# TODO: check that functions work properly
+
+def send_mail(sender_email, reciver_email, message):
     """Sends a Email to the specified email address"""
-    pass
+    port = 465  # For SSL
+    password = input("Type your password and press enter: ")
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login("massimiliano.mola.bzs@gmail.com", password)
+        # TODO: send email  
+        # server.sendmail(sender_email, receiver_email, message)
 
-def send_report():
+
+def send_report(sender_email, reciver_emails, present, absent, undef):
     """Sends a Report of all absences and undefined people to the specified email address"""
-    pass
-
-def notify_parrent(student):
-    """Sends a Email in witch it informs about the absence of a student"""
-    pass
-
-# def get_attenddances():
-#     res = []
-#     with open('data/attendances.csv', 'r') as f:
-#         lines = f.readlines()
-#     for l in lines:
-#         res.append(l.replace("\n", "").strip())
-#     return list(dict.fromkeys(res))
-
-
-# def create_report(studens_present):
-#     present = "Studenti presenti: \n"
-#     absent = "Studenti assenti: \n"
-#     undefined = "Studenti non identificati: \n"
-#     separatore = "--- \n"
+    # variables that compose the text
+    present = "Studenti presenti: \n"
+    absent = "Studenti assenti: \n"
+    undefined = "Studenti non identificati: \n"
+    separator = "--- \n"
 
 #     # check for presences
-#     for s in get_presences():
-#         present += "- " + s.name + " " + s.surname + " " + s.classe + "\n"
+    for s in present:
+        present += "- " + s.name + " " + s.surname + " " + s.classe + "\n"
 
 #     # check for absences
-#     for s in get_absences():
-#         absent += "- " + s.name + " " + s.surname + " " + s.classe + "\n"
+    for s in absent:
+        absent += "- " + s.name + " " + s.surname + " " + s.classe + "\n"
 
 #     # check for undef people
-#     for name in get_undef():
-#         undefined += "- " + name + "\n"
+    for name in undef:
+        undefined += "- " + name + "\n"
 
-#     return absent + separatore + undefined + separatore + present
+    # TODO: send mails
+    msg = absent + separator + undefined + separator + present
 
-# def get_presences():
-#     list_sudents = get_students_today()
-#     attenddances = get_attenddances()
-#     ret = []
-
-#     for s in list_sudents:
-#         if s.name + " " + s.surname in attenddances:
-#             ret.append(s)
-
-#     return ret
+# TODO: check if it works
+def notify_parrent(student, sender):
+    """Sends a Email in witch it informs about the absence of a student"""
+    for email in student.get_emails():
+        send_mail(sender, email, "La iformiamo che suo figlio/a ...")
+    pass
 
 # # TODO: dosn't work properly
 # def get_absences():
 #     return [x for x in get_students_today() if x not in get_presences()]
-
-# def get_undef():
-#     students = get_students_today()
-#     attenddances = get_attenddances()
-#     names = []
-#     for s in students:
-#         names.append(s.name + " " + s.surname)
-
-#     return list(set(attenddances) - set(names))
-
-# print(create_report(get_students('data/test_mensa.csv', 'data/test_contact.csv')))

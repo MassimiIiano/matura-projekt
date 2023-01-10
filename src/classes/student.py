@@ -17,6 +17,9 @@ class Student:
         my_code = Code128(self.name + " " + self.surname)
         my_code.save("barcodes/" + self.name + self.surname)
 
+    def get_emails(self):
+        return self.emails
+
     def __str__(self):
         return self.name + " " + self.classe + " " + self.emails + " " + str(self.presences)
 
