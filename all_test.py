@@ -7,6 +7,7 @@ class Test(unittest.TestCase):
     student1 = Student(123, "Massimo", "Cicchetti", "5IA", [1,2,3,4], "banana@banana.com")
     students = import_students(os.environ.get('PATH_MENSA'))
     students_today = get_students_today(import_students(os.environ.get('PATH_MENSA')))
+
     # ---------------------------------------------------------------- 
     # Global
     # ----------------------------------------------------------------
@@ -39,6 +40,7 @@ class Test(unittest.TestCase):
         for s in self.students_today:
             if not s in stu:
                 self.fail("not all elements presett in array")
+
 
     def test_get_undefined(self):
         self.assertEqual(get_undefined([self.student1], ['banana ananas']), ['banana ananas'])
