@@ -7,7 +7,7 @@ def get_mensa_list():
     """Returns an array of the names of the student that did go to the mensa doday"""
     res = []
     # open mensa file
-    with open(os.getenv('PATH_MENSA'), 'r') as f:
+    with open(os.getenv('PATH_ATTENDANCES'), 'r') as f:
         lines = f.readlines()
     # clear name of students
     for l in lines:
@@ -15,9 +15,8 @@ def get_mensa_list():
     # replace doubles
     return list(dict.fromkeys(res))
 
-def get_presences():
+def get_presences(list_sudents):
     """returns all the students thad did go to the mensa"""
-    list_sudents = get_students_today()
     attenddances = get_mensa_list()
     ret = []
 
@@ -27,20 +26,18 @@ def get_presences():
 
     return ret
 
-def get_absences():
+def get_absences(students):
     """returns all the students that were absent from the mensa"""
-    return [x for x in get_students_today() if x not in get_presences()]
+    return [x for x in students if x not in get_presences(students)]
 
-def get_undefined():
+def get_undefined(students, attenddancies):
     """returns an array of the names of people that soud not have been in the mensa"""
-    students = get_students_today()
-    attenddances = get_mensa_list()
-    names = []
-    for s in students:
-        names.append(s.name + " " + s.surname)
+#     names = []
+#     for s in students:
+#         names.append(s.name + " " + s.surname)
+#     return list(set(attenddances) - set(names))
+    pass
 
-# TODO: check if it works
-    return list(set(attenddances) - set(names))
 
 if __name__ == "__main__":
     # setnd report to personal

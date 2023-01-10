@@ -56,7 +56,7 @@ def import_students(path_data):
     
     return students
 
-def get_students_today(student_list):
+def get_students_today(student_list=[]):
     """returns the students that shoud go to mensa today"""
     res = []
     for student in student_list:
