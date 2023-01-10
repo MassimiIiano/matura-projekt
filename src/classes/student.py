@@ -20,8 +20,9 @@ class Student:
     def __str__(self):
         return self.name + " " + self.classe + " " + self.emails + " " + str(self.presences)
 
-
-def get_students(path_data):
+# TODO: finish this
+def import_students(path_data):
+    """imports students from a csv file"""
     students = []
     # Read the data from the csv file
     data_mensa = pd.read_csv(path_data, sep=";")
@@ -33,9 +34,10 @@ def get_students(path_data):
     
     return students
 
-def get_students_today():
+def get_students_today(student_list):
+    """returns the students that shoud go to mensa today"""
     res = []
-    for student in get_students('data\Mensa classi prime.csv'):
+    for student in student_list:
         if date.today().weekday() in student.presences:
             res.append(student)
     return res
