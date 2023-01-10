@@ -1,5 +1,7 @@
 from src.classes.mail import *
+from src.classes.student import *
 import os
+
 # TODO: all the functions 
 def get_mensa_list():
     """Returns an array of the names of the student that did go to the mensa doday"""

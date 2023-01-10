@@ -1,11 +1,11 @@
 from barcode import Code128
 # from barcode.writer import ImageWriter
 import pandas as pd
-import numpy as np
+import re
 from datetime import date
 
 class Student:
-    def __init__(self, id, name, surname, classe, presences, emails=[None, None]):
+    def __init__(self, id, name, surname, classe, presences, emails):
         self.id = id
         self.name = name
         self.surname = surname
@@ -20,7 +20,6 @@ class Student:
     def __str__(self):
         return self.name + " " + self.classe + " " + self.emails + " " + str(self.presences)
 
-# TODO: finish this
 def import_students(path_data):
     """imports students from a csv file"""
     students = []
@@ -29,8 +28,28 @@ def import_students(path_data):
 
     # Create a list of students from data
     for index, row in data_mensa.iterrows():
-        
-        students.append(Student(row['N.'], row['Nome']), row['Cognome'], row['Classe'], row[''])
+        # remove whitespace
+        map(lambda x: x.strip(), row)
+
+        # check days of mensa
+        mensa_days = []
+        days = [row['lun'], row['mar'], row['merc'], row['giov'], row['ven']]
+
+        for i in range(len(days)):
+            if days[i] == 'x':
+                mensa_days.append(i)
+
+        # check if emails are valid
+        pat = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        student_emails = []
+        emails = [row['mail madre'], row['mail padre']]
+
+        for email in emails:
+            if re.match(pat, str(email)):
+                student_emails.append(email)
+
+        # create student and append it to the list
+        students.append(Student(row['N.'], row['Nome'], row['Cognome'], row['Classe'], mensa_days, student_emails))
     
     return students
 
