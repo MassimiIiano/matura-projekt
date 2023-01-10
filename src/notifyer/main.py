@@ -32,11 +32,11 @@ def get_absences(students):
 
 def get_undefined(students, attenddancies):
     """returns an array of the names of people that soud not have been in the mensa"""
-#     names = []
-#     for s in students:
-#         names.append(s.name + " " + s.surname)
-#     return list(set(attenddances) - set(names))
-    pass
+    names = []
+    for s in students:
+        names.append(s.name + " " + s.surname)
+    
+    return [x for x in attenddancies if x not in names]
 
 
 if __name__ == "__main__":
