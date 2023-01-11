@@ -1,3 +1,4 @@
+from datetime import datetime
 from src.classes.mail import *
 from src.classes.student import *
 import os
@@ -6,7 +7,7 @@ def get_mensa_list():
     """Returns an array of the names of the student that did go to the mensa doday"""
     res = []
     # open mensa file
-    with open(os.getenv('PATH_ATTENDANCES'), 'r') as f:
+    with open('data/mensa/mensa' + datetime.now().strftime("%d-%m-%Y") + ".csv", 'r') as f:
         lines = f.readlines()
     # clear name of students
     for l in lines:
