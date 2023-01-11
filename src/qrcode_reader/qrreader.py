@@ -1,6 +1,7 @@
 import cv2
 import os
 
+
 class QrcodeReader():
     active = False
 
@@ -29,9 +30,8 @@ class QrcodeReader():
 
 def write_to_file(path, data):
     """Writes text data to a file"""
-    with open('data/presenze.csv', 'a') as f:
+    with open(path, 'a') as f:
         f.write(data + "\n")
-
 
 if __name__ == '__main__':
     reader = QrcodeReader(
