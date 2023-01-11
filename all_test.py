@@ -55,6 +55,10 @@ class Test(unittest.TestCase):
         except Exception:
             self.fail("Unexpected exception")
 
+    def test_gen_qrcode(self):
+        for student in self.students_today:
+            student.gen_qrcode()
+
 
 if __name__ == '__main__':
     unittest.main()

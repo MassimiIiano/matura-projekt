@@ -3,6 +3,7 @@ from barcode import Code128
 import pandas as pd
 import re
 from datetime import date
+import qrcode
 
 class Student:
     def __init__(self, id, name, surname, classe, presences, emails):
@@ -13,15 +14,24 @@ class Student:
         self.emails = emails
         self.presences = presences
 
+
     def gen_barcode(self):
         my_code = Code128(self.name + " " + self.surname)
         my_code.save("barcodes/" + self.name + self.surname)
 
+
+    def gen_qrcode(self):
+        img = qrcode.make(self.name + " " + self.surname)
+        img.save("qrcodes/" + self.name + self.surname + ".png")
+
+    
     def get_emails(self):
         return self.emails
 
+
     def __str__(self):
         return self.name + " " + self.classe + " " + self.emails + " " + str(self.presences)
+
 
 def import_students(path_data):
     """imports students from a csv file"""
@@ -55,6 +65,7 @@ def import_students(path_data):
         students.append(Student(row['N.'], row['Nome'], row['Cognome'], row['Classe'], mensa_days, student_emails))
     
     return students
+
 
 def get_students_today(student_list=[]):
     """returns the students that shoud go to mensa today"""
