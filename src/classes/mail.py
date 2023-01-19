@@ -3,15 +3,10 @@ from src.classes.student import Student
 
 # TODO: check that functions work properly
 
-def send_mail(sender_email, reciver_email, message):
+def send_mail(port, smtp_server, sender_email, reciver_email, message):
     """Sends a Email to the specified email address"""
-    port = 465  # For SSL
-    password = input("Type your password and press enter: ")
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-        server.login("massimiliano.mola.bzs@gmail.com", password)
-        # TODO: send email  
-        # server.sendmail(sender_email, receiver_email, message)
+    with smtplib.SMTP(smtp_server, port) as server:
+        server.sendmail(sender_email, reciver_email, message)
 
 
 def send_report(sender_email, reciver_emails, present, absent, undef):
