@@ -1,4 +1,4 @@
-import smtplib, ssl
+import smtplib
 from src.classes.student import Student
 
 # TODO: check that functions work properly

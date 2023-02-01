@@ -10,5 +10,6 @@ def schedule_loop(time_of_day, function_to_do):
         time.sleep(60)
 
 def schedule_as_thread(function_to_do):
+    # TODO check if it works
     thread = threading.Thread(target=schedule_loop, args=(function_to_do,), daemon=True)
     thread.start()
