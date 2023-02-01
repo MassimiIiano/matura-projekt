@@ -1,4 +1,4 @@
-from barcode import Code128
+# from barcode import Code128
 # from barcode.writer import ImageWriter
 import pandas as pd
 import re
@@ -15,9 +15,9 @@ class Student:
         self.presences = presences
 
 
-    def gen_barcode(self):
-        my_code = Code128(self.name + " " + self.surname)
-        my_code.save("barcodes/" + self.name + self.surname)
+    # def gen_barcode(self):
+    #     my_code = Code128(self.name + " " + self.surname)
+    #     my_code.save("barcodes/" + self.name + self.surname)
 
 
     def gen_qrcode(self):
