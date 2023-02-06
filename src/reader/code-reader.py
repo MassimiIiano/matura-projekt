@@ -17,11 +17,6 @@ class Reader():
             data = input("studente: ")
             write_to_file(self.storeto, data)
 
-    def stop(self):
-        """Stops reading qrcodes form videostream"""
-        self.active = False
-        self.vid.release()
-
 
 def write_to_file(path, data):
     """Writes text data to a file"""
@@ -40,6 +35,7 @@ def create_mensa_file():
 if __name__ == '__main__':
 
     schedule_as_thread(create_mensa_file())
+    
     
     reader = Reader(
         os.environ.get('PATH_ATTENDANCES')

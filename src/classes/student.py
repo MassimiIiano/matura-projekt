@@ -6,19 +6,13 @@ from datetime import date
 import qrcode
 
 class Student:
-    def __init__(self, id, name, surname, classe, presences, emails):
+    def __init__(self, id, name: str, surname: str, classe: str, presences: list[int], emails: list[str]):
         self.id = id
         self.name = name
         self.surname = surname
         self.classe = classe
         self.emails = emails
         self.presences = presences
-
-
-    # def gen_barcode(self):
-    #     my_code = Code128(self.name + " " + self.surname)
-    #     my_code.save("barcodes/" + self.name + self.surname)
-
 
     def gen_qrcode(self):
         img = qrcode.make(self.name + " " + self.surname)
