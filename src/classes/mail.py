@@ -1,9 +1,9 @@
-# TODO: check that functions work properly
-
 import os
 import smtplib
 from email.mime.text import MIMEText
+from student import Student
 
+# TODO shod work, but needs testing with paolo 
 def send_email(to, content, subject):
     sender = os.environ.get('SENDER_EMAIL')
     smtp_server = os.environ.get('SMTP_SERVER')
@@ -17,17 +17,14 @@ def send_email(to, content, subject):
     server.sendmail(sender, to, message.as_string())
     server.quit()
 
-
-
-
-
-def send_report(sender_email, reciver_emails, present, absent, undef):
+# TODO: implement
+def send_report(present: list[Student], absent: list[Student], undef: list[str]) -> None:
     """Sends a Report of all absences and undefined people to the specified email address"""
     # variables that compose the text
     present = "Studenti presenti: \n"
     absent = "Studenti assenti: \n"
     undefined = "Studenti non identificati: \n"
-    separator = "--- \n"
+    sep = "--- \n"
 
 #     # check for presences
     for s in present:
@@ -42,15 +39,9 @@ def send_report(sender_email, reciver_emails, present, absent, undef):
         undefined += "- " + name + "\n"
 
     # TODO: send mails
-    msg = absent + separator + undefined + separator + present
+    msg = absent + sep + undefined + sep + present
 
-# TODO: check if it works
-def notify_parrent(student, sender):
+# TODO: implement 
+def notify_parrent(student: Student) -> None:
     """Sends a Email in witch it informs about the absence of a student"""
-    for email in student.get_emails():
-        send_mail(sender, email, "La iformiamo che suo figlio/a ...")
     pass
-
-# # TODO: dosn't work properly
-# def get_absences():
-#     return [x for x in get_students_today() if x not in get_presences()]
