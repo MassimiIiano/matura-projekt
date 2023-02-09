@@ -1,10 +1,10 @@
 import os
 import smtplib
 from email.mime.text import MIMEText
-from student import Student
+from src.classes.student import Student
 
 # TODO shod work, but needs testing with paolo 
-def send_email(to, content, subject):
+def send_email(to: list[str], content: str, subject: str) -> None:
     sender = os.environ.get('SENDER_EMAIL')
     smtp_server = os.environ.get('SMTP_SERVER')
     

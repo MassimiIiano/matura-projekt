@@ -1,4 +1,5 @@
 import unittest
+from src.classes.code_reader import create_mensa_file
 from src.notifyer.main import *
 import os
 
@@ -8,6 +9,9 @@ class Test(unittest.TestCase):
     students = import_students(os.environ.get('PATH_MENSA'))
     students_today = get_students_today(import_students(os.environ.get('PATH_MENSA')))
 
+    @classmethod
+    def setUpClass(cls):
+        create_mensa_file()
 
     # ---------------------------------------------------------------- 
     # Notyfier
