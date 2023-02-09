@@ -1,11 +1,24 @@
-import smtplib
-
 # TODO: check that functions work properly
 
-def send_mail(port, smtp_server, sender_email, reciver_email, message):
-    """Sends a Email to the specified email address"""
-    with smtplib.SMTP(smtp_server, port) as server:
-        server.sendmail(sender_email, reciver_email, message)
+import os
+import smtplib
+from email.mime.text import MIMEText
+
+def send_email(to, content, subject):
+    sender = os.environ.get('SENDER_EMAIL')
+    smtp_server = os.environ.get('SMTP_SERVER')
+    
+    message = MIMEText(content)
+    message['to'] = ', '.join(to)
+    message['from'] = sender
+    message['subject'] = subject
+
+    server = smtplib.SMTP(smtp_server, os.environ.get('SMTP_PORT'))
+    server.sendmail(sender, to, message.as_string())
+    server.quit()
+
+
+
 
 
 def send_report(sender_email, reciver_emails, present, absent, undef):

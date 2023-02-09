@@ -8,12 +8,6 @@ class Test(unittest.TestCase):
     students = import_students(os.environ.get('PATH_MENSA'))
     students_today = get_students_today(import_students(os.environ.get('PATH_MENSA')))
 
-    # ---------------------------------------------------------------- 
-    # Global
-    # ----------------------------------------------------------------
-    def test_env_variables(self):
-        self.assertEqual(os.environ.get('PATH_MENSA'), "C:/Users/massi/Documents/School/5IA/projekt_matura/data/Mensa classi prime.csv")
-
 
     # ---------------------------------------------------------------- 
     # Notyfier

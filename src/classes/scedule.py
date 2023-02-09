@@ -2,14 +2,21 @@ import schedule
 import time
 import threading
 
-def schedule_loop(function_to_do: callable):
-    schedule.every().hour.do(function_to_do)
+def repeat_function(func: callable, timeout: int = 60, exe: bool = True):
+    # ensure that the function is called every minute
+    def wrapper():
+        while True:
+            func()
+            time.sleep(timeout)
 
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
+    # execute the function once
+    if exe:
+        func()
+    
+    # creates and starts a daemon thread
+    t = threading.Thread(
+        target=wrapper, 
+        daemon=True
+    )
 
-def schedule_as_thread(function_to_do: callable):
-    # TODO check if it works
-    thread = threading.Thread(target=schedule_loop, args=(function_to_do,), daemon=True)
-    thread.start()
+    t.start()

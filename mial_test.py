@@ -1,28 +1,21 @@
-# import unittest
-# import os
-# from src.classes.mail import *
+import unittest
+import os
+from src.classes.mail import *
 
-# class Test(unittest.TestCase):
-#     def test_send_mail(self):
-#         port = int(os.environ.get('MAIL_PORT'))
-#         server = str(os.environ.get('MAIL_SERVER'))
-#         sender = "alfieriblz@schools.fuss.bz.it"
-#         recivers = ['massimiliano.mola.bzs@gmail.com']
-#         msg = """From: Fuss <alfieriblz@schools.fuss.bz.it>
-# To: Massimiliano <massimiliano.mola.bzs@gmail.com>
-# MIME-Version: 1.0
-# Content-type: text/html
-# Subject: SMTP HTML e-mail test
+class TestSendEmail(unittest.TestCase):
 
-# This is an e-mail message to be sent in HTML format
+    def test_send_email(self):
+        """Check that the email was sent successfully"""
+        to = 'recipient@example.com'
+        subject = 'Test, this is the subject'
+        content = 'This is a test email from Python.'
 
-# <b>This is HTML message.</b>
-# <h1>This is headline.</h1>
-# """
+        os.environ['SENDER_EMAIL'] = 'alfieriblz@schools.fuss.bz.it'
+        os.environ['SMTP_SERVER'] = '10.0.101.101'
+        os.environ['SMTP_PORT'] = '25'
+
+        send_email(to, content, subject)
 
 
-#         send_mail(port, server, sender, recivers, msg)
-
-
-# if __name__ == '__main__':
-#     unittest.main()
+if __name__ == '__main__':
+    unittest.main()

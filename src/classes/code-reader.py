@@ -1,6 +1,6 @@
-from datetime import datetime
+import datetime
 import os
-from src.classes.scedule import schedule_as_thread
+from src.classes.scedule import repeat_function
 
 
 class Reader():
@@ -25,17 +25,25 @@ def write_to_file(path, data):
         f.close()
 
 def create_mensa_file():
+    # generate filename
     now = datetime.now()
-    file_path = 'data/mensa/mensa' + now.strftime("%d-%m-%Y") + ".csv"
-    with open(file_path, 'x') as f:
-        f.close()
+    file_path = 'data/mensa/mensa' + now.strftime('%d-%m-%Y') + '.csv'
 
+    # create file if not exists
+    try:
+        with open(file_path, 'x') as f:
+            f.close()
+    except FileExistsError:
+        pass
+
+    # set path to env
     os.environ["PATH_ATTENDANCES"] = os.path.abspath(file_path)
 
-if __name__ == '__main__':
 
-    schedule_as_thread(create_mensa_file())
-    
+
+if __name__ == '__main__':
+    # repeats the function every minute
+    repeat_function(create_mensa_file)
     
     reader = Reader(
         os.environ.get('PATH_ATTENDANCES')

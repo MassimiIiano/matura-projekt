@@ -16,7 +16,7 @@ class Student:
 
     def gen_qrcode(self):
         img = qrcode.make(self.name + " " + self.surname)
-        img.save("qrcodes/" + self.name + self.surname + ".png")
+        img.save("data/qrcodes/" + self.name + self.surname + ".png")
 
     
     def get_emails(self):
@@ -27,11 +27,12 @@ class Student:
         return self.name + " " + self.classe + " " + self.emails + " " + str(self.presences)
 
 
-def import_students(path_data):
+def import_students(path: str) -> list[Student]:
     """imports students from a csv file"""
     students = []
+
     # Read the data from the csv file
-    data_mensa = pd.read_csv(path_data, sep=";")
+    data_mensa = pd.read_csv(path, sep=";")
 
     # Create a list of students from data
     for index, row in data_mensa.iterrows():
@@ -61,10 +62,13 @@ def import_students(path_data):
     return students
 
 
-def get_students_today(student_list=[]):
+def get_students_today(student_list: list[Student]) -> list[Student]:
     """returns the students that shoud go to mensa today"""
     res = []
+    # loop over all students
     for student in student_list:
+        # check if student should go to mensa today
         if date.today().weekday() in student.presences:
             res.append(student)
+
     return res
