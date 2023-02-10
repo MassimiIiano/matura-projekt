@@ -1,13 +1,14 @@
 from datetime import datetime
 import os
-from src.classes.scedule import repeat_function
+from student import Student
+from scedule import repeat_function
 
 
 class Reader():
     active = False
 
-    def __init__(self, storeto):
-        self.storeto = storeto
+    def __init__(self, store, students: list[Student]=[]):
+        self.storeto = store
 
     def start(self):
         """Starts reading qrcodes form videostream"""
@@ -15,13 +16,20 @@ class Reader():
 
         while self.active:
             data = input("studente: ")
+
+            # exit if exit is endterd stop loop
+            if data == "exit":
+                self.active = False
+                break
+
+            # write log to file
             write_to_file(self.storeto, data)
 
 
 def write_to_file(path, data):
     """Writes text data to a file"""
     with open(path, 'a') as f:
-        f.write(data)
+        f.write(data + '\n')
         f.close()
 
 def create_mensa_file():
@@ -38,7 +46,6 @@ def create_mensa_file():
 
     # set path to env
     os.environ["PATH_ATTENDANCES"] = os.path.abspath(file_path)
-
 
 
 if __name__ == '__main__':

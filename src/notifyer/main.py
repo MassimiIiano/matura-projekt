@@ -30,7 +30,7 @@ def get_absences(students):
     """returns all the students that were absent from the mensa"""
     return [x for x in students if x not in get_presences(students)]
 
-def get_undefined(students, attenddancies):
+def get_undefined(students, attenddancies) -> list[str]:
     """returns an array of the names of people that soud not have been in the mensa"""
     names = []
     for s in students:
@@ -39,9 +39,10 @@ def get_undefined(students, attenddancies):
     return [x for x in attenddancies if x not in names]
 
 
-if __name__ == "__main__":
+def report():
+    # TODO: finish whew you have acces to mail server
     # setnd report to personal
-    send_report(os.getenv("REPORT_TO"), get_presences(), get_absences(), get_undefined())
+    send_report(get_presences(), get_absences(), get_undefined())
 
     # notify parents if student has missed mensa
     for student in get_absences():

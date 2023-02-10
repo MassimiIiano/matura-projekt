@@ -7,7 +7,7 @@ class Test(unittest.TestCase):
     # Variables for testing
     student1 = Student(123, "Massimo", "Cicchetti", "5IA", [1,2,3,4], "banana@banana.com")
     students = import_students(os.environ.get('PATH_MENSA'))
-    students_today = get_students_today(import_students(os.environ.get('PATH_MENSA')))
+    students_today = get_students_today(students)
 
     @classmethod
     def setUpClass(cls):

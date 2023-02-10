@@ -2,21 +2,28 @@
 # from barcode.writer import ImageWriter
 import pandas as pd
 import re
+import os
 from datetime import date
 import qrcode
 
 class Student:
-    def __init__(self, id, name: str, surname: str, classe: str, presences: list[int], emails: list[str]):
+    def __init__(self, id: str, name: str, surname: str, classe: str, presences: list[int], emails: list[str]):
         self.id = id
         self.name = name
         self.surname = surname
         self.classe = classe
         self.emails = emails
         self.presences = presences
+        self.qr_path: str = os.environ.get('QR_PATH')
 
     def gen_qrcode(self):
+        # create directory for qrcode if it doesn't exist
+        if not os.path.exists(self.qr_path):
+            os.makedirs(self.qr_path)
+        
+        # create qrcode file
         img = qrcode.make(self.name + " " + self.surname)
-        img.save("data/qrcodes/" + self.name + self.surname + ".png")
+        img.save(self.qr_path + '/' + self.name + self.surname + ".png")
 
     
     def get_emails(self):
@@ -62,11 +69,11 @@ def import_students(path: str) -> list[Student]:
     return students
 
 
-def get_students_today(student_list: list[Student]) -> list[Student]:
+def get_students_today(students: list[Student]) -> list[Student]:
     """returns the students that shoud go to mensa today"""
     res = []
     # loop over all students
-    for student in student_list:
+    for student in students:
         # check if student should go to mensa today
         if date.today().weekday() in student.presences:
             res.append(student)
