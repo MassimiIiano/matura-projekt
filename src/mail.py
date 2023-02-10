@@ -1,7 +1,8 @@
 import os
 import smtplib
 from email.mime.text import MIMEText
-from src.classes.student import Student
+from .student import Student
+from .get_data import get_absences, get_presences, get_undefined
 
 # TODO shod work, but needs testing with paolo 
 def send_email(to: list[str], content: str, subject: str) -> None:
@@ -45,3 +46,12 @@ def send_report(present: list[Student], absent: list[Student], undef: list[str])
 def notify_parrent(student: Student) -> None:
     """Sends a Email in witch it informs about the absence of a student"""
     pass
+
+def report():
+    # TODO: finish whew you have acces to mail server
+    # setnd report to personal
+    send_report(get_presences(), get_absences(), get_undefined())
+
+    # notify parents if student has missed mensa
+    for student in get_absences():
+        notify_parrent(student)

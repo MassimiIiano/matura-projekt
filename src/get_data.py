@@ -1,37 +1,45 @@
-# from barcode import Code128
-# from barcode.writer import ImageWriter
+from datetime import datetime
+from datetime import date
 import pandas as pd
 import re
-import os
-from datetime import date
-import qrcode
+from .student import Student
 
-class Student:
-    def __init__(self, id: str, name: str, surname: str, classe: str, presences: list[int], emails: list[str]):
-        self.id = id
-        self.name = name
-        self.surname = surname
-        self.classe = classe
-        self.emails = emails
-        self.presences = presences
-        self.qr_path: str = os.environ.get('QR_PATH')
-
-    def gen_qrcode(self):
-        # create directory for qrcode if it doesn't exist
-        if not os.path.exists(self.qr_path):
-            os.makedirs(self.qr_path)
+def get_mensa_list():
+    """Returns an array of the names of the student that did go to the mensa doday"""
+    res = []
+    # open mensa file
+    with open('data/mensa/mensa' + datetime.now().strftime("%d-%m-%Y") + ".csv", 'r') as f:
+        lines = f.readlines()
         
-        # create qrcode file
-        img = qrcode.make(self.name + " " + self.surname)
-        img.save(self.qr_path + '/' + self.name + self.surname + ".png")
+    # clear name of students
+    for l in lines:
+        res.append(l.replace("\n", "").strip())
+        
+    # replace doubles
+    return list(dict.fromkeys(res))
 
+def get_presences(list_sudents):
+    """returns all the students thad did go to the mensa"""
+    attenddances = get_mensa_list()
+    ret = []
+
+    for s in list_sudents:
+        if s.name + " " + s.surname in attenddances:
+            ret.append(s)
+
+    return ret
+
+def get_absences(students):
+    """returns all the students that were absent from the mensa"""
+    return [x for x in students if x not in get_presences(students)]
+
+def get_undefined(students, attenddancies) -> list[str]:
+    """returns an array of the names of people that soud not have been in the mensa"""
+    names = []
+    for s in students:
+        names.append(s.name + " " + s.surname)
     
-    def get_emails(self):
-        return self.emails
-
-
-    def __str__(self):
-        return self.name + " " + self.classe + " " + self.emails + " " + str(self.presences)
+    return [x for x in attenddancies if x not in names]
 
 
 def import_students(path: str) -> list[Student]:

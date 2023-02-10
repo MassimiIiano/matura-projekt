@@ -1,6 +1,7 @@
 import unittest
-from src.classes.code_reader import create_mensa_file
-from src.notifyer.main import *
+from src.code_reader import create_mensa_file
+from src.get_data import *
+from src.student import *
 import os
 
 class Test(unittest.TestCase):

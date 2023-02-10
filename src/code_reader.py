@@ -1,13 +1,14 @@
 from datetime import datetime
 import os
-from student import Student
-from scedule import repeat_function
+import time
+import threading
+
 
 
 class Reader():
     active = False
 
-    def __init__(self, store, students: list[Student]=[]):
+    def __init__(self, store: str):
         self.storeto = store
 
     def start(self):
@@ -48,12 +49,21 @@ def create_mensa_file():
     os.environ["PATH_ATTENDANCES"] = os.path.abspath(file_path)
 
 
-if __name__ == '__main__':
-    # repeats the function every minute
-    repeat_function(create_mensa_file)
+def repeat_function(func: callable, timeout: int = 60, exe: bool = True):
+    # ensure that the function is called every minute
+    def wrapper():
+        while True:
+            func()
+            time.sleep(timeout)
+
+    # execute the function once
+    if exe:
+        func()
     
-    reader = Reader(
-        os.environ.get('PATH_ATTENDANCES')
+    # creates and starts a daemon thread
+    t = threading.Thread(
+        target=wrapper, 
+        daemon=True
     )
 
-    reader.start()
+    t.start()
