@@ -2,7 +2,8 @@ from datetime import datetime
 from datetime import date
 import pandas as pd
 import re
-from .student import Student
+import os
+from student import Student
 
 def get_mensa_list():
     """Returns an array of the names of the student that did go to the mensa doday"""
@@ -76,6 +77,8 @@ def import_students(path: str) -> list[Student]:
     
     return students
 
+def get_all() -> list[Student]:
+    return import_students(os.environ.get('PATH_MENSA'))
 
 def get_students_today(students: list[Student]) -> list[Student]:
     """returns the students that shoud go to mensa today"""

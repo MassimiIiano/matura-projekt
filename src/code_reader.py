@@ -2,14 +2,15 @@ from datetime import datetime
 import os
 import time
 import threading
-
+from student import Student
 
 
 class Reader():
     active = False
 
-    def __init__(self, store: str):
+    def __init__(self, store: str, students: list[Student]):
         self.storeto = store
+        # self.students = students
 
     def start(self):
         """Starts reading qrcodes form videostream"""
@@ -25,6 +26,13 @@ class Reader():
 
             # write log to file
             write_to_file(self.storeto, data)
+            
+            # std = find_student(data, self.students)
+            
+            # if std:
+            #     print(std)
+            # else:
+            #     print("Studente non trovato")
 
 
 def write_to_file(path, data):
@@ -67,3 +75,13 @@ def repeat_function(func: callable, timeout: int = 60, exe: bool = True):
     )
 
     t.start()
+
+# TODO: (Opitonal) find student and assure the person that is using the program that everything is ok
+def find_student(name: str, students: list[Student]) -> Student:
+
+    # find student 
+    for student in students:
+        if name == student.name + student.surname:
+            return student
+
+    return None

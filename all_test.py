@@ -55,7 +55,7 @@ class Test(unittest.TestCase):
             self.fail("Unexpected exception")
 
     def test_gen_qrcode(self):
-        for student in self.students_today:
+        for student in self.students:
             student.gen_qrcode()
 
 
