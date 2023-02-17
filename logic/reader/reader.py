@@ -25,7 +25,13 @@ class Reader():
             # write log to file
             write_to_file(self.storeto, data)
             
-
+def accept(name: str):
+    write_to_file(
+        os.getenv('DATA') + 
+        os.getenv('LOGS') + 
+        "/" + create_mensa_file(), 
+        name
+    )
 
 def write_to_file(path, data):
     """Writes text data to a file"""

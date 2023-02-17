@@ -1,8 +1,12 @@
 from datetime import datetime
 from datetime import date
+import sys
 import pandas as pd
 import re
 import os
+
+sys.path.append(os.getenv('ROOT'))
+
 from logic.student.student import Student
 
 def get_mensa_list():
@@ -78,7 +82,7 @@ def import_students(path: str) -> list[Student]:
     return students
 
 def get_all() -> list[Student]:
-    return import_students(os.environ.get('PATH_MENSA'))
+    return import_students(os.getenv('DATA') + os.getenv('STUDENTS'))
 
 def get_students_today(students: list[Student]) -> list[Student]:
     """returns the students that shoud go to mensa today"""
@@ -90,3 +94,16 @@ def get_students_today(students: list[Student]) -> list[Student]:
             res.append(student)
 
     return res
+
+def get_student_by_name( name: str, students: list[Student] = None,) -> Student | None:
+    """
+    Returns the student object that matches the given name and surname, or None if no such student is found.
+    """
+    if students is None:
+        students = get_all()
+    
+    for student in students:
+        if student.name.lower() + " " + student.surname.lower() == name.lower():
+            return student
+
+    return None
