@@ -131,3 +131,5 @@ dmypy.json
 
 # do not take images
 *.png
+
+*.csv

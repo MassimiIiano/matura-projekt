@@ -2,7 +2,6 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from student import Student
-from get_data import get_absences, get_presences, get_undefined
 
 # TODO shod work, but needs testing with paolo 
 def send_email(to: list[str], content: str, subject: str) -> None:
