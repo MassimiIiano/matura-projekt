@@ -3,7 +3,7 @@ from datetime import date
 import pandas as pd
 import re
 import os
-from student import Student
+from logic.student.student import Student
 
 def get_mensa_list():
     """Returns an array of the names of the student that did go to the mensa doday"""
@@ -19,7 +19,7 @@ def get_mensa_list():
     # replace doubles
     return list(dict.fromkeys(res))
 
-def get_presences(list_sudents):
+def get_presences(list_sudents: list[Student]):
     """returns all the students thad did go to the mensa"""
     attenddances = get_mensa_list()
     ret = []

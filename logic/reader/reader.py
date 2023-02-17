@@ -2,15 +2,13 @@ from datetime import datetime
 import os
 import time
 import threading
-from student import Student
 
 
 class Reader():
     active = False
 
-    def __init__(self, store: str, students: list[Student]):
-        self.storeto = store
-        # self.students = students
+    def __init__(self, store=False):
+        self.storeto = store if store else create_mensa_file()
 
     def start(self):
         """Starts reading qrcodes form videostream"""
@@ -27,12 +25,6 @@ class Reader():
             # write log to file
             write_to_file(self.storeto, data)
             
-            # std = find_student(data, self.students)
-            
-            # if std:
-            #     print(std)
-            # else:
-            #     print("Studente non trovato")
 
 
 def write_to_file(path, data):
@@ -41,10 +33,11 @@ def write_to_file(path, data):
         f.write(data + '\n')
         f.close()
 
+
 def create_mensa_file():
     # generate filename
     now = datetime.now()
-    file_path = 'data/mensa/mensa' + now.strftime('%d-%m-%Y') + '.csv'
+    file_path = os.getenv('DATA') + os.getenv('LOGS') + now.strftime('%d-%m-%Y') + '.csv'
 
     # create file if not exists
     try:
@@ -54,7 +47,7 @@ def create_mensa_file():
         pass
 
     # set path to env
-    os.environ["PATH_ATTENDANCES"] = os.path.abspath(file_path)
+    return os.path.abspath(file_path)
 
 
 def repeat_function(func: callable, timeout: int = 60, exe: bool = True):
@@ -75,13 +68,3 @@ def repeat_function(func: callable, timeout: int = 60, exe: bool = True):
     )
 
     t.start()
-
-# TODO: (Opitonal) find student and assure the person that is using the program that everything is ok
-def find_student(name: str, students: list[Student]) -> Student:
-
-    # find student 
-    for student in students:
-        if name == student.name + student.surname:
-            return student
-
-    return None

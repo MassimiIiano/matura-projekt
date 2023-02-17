@@ -24,23 +24,26 @@ def send_report(present: list[Student], absent: list[Student], undef: list[str])
     # variables that compose the text
     present = "Studenti presenti: \n"
     absent = "Studenti assenti: \n"
-    undefined = "Studenti non identificati: \n"
-    sep = "--- \n"
+    undefined = "Studenti non identificati dal sistema: \n"
+    sep = "------------------------ \n"
 
-#     # check for presences
+    # check for presences
     for s in present:
         present += "- " + s.name + " " + s.surname + " " + s.classe + "\n"
 
-#     # check for absences
+    # check for absences
     for s in absent:
         absent += "- " + s.name + " " + s.surname + " " + s.classe + "\n"
 
-#     # check for undef people
+    # check for undef people
     for name in undef:
         undefined += "- " + name + "\n"
 
     # TODO: send mails
     msg = absent + sep + undefined + sep + present
+    
+    # send_email()
+    
 
 # TODO: implement 
 def notify_parrent(student: Student) -> None:

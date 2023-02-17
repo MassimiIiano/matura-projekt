@@ -1,6 +1,6 @@
 import unittest
 import os
-from src.mail import *
+from mail import *
 
 class TestSendEmail(unittest.TestCase):
 
