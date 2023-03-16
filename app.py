@@ -37,6 +37,9 @@ def log_student(event=None):
     else:
         # text_field.delete(1.0, tk.END)
         text_field.insert(tk.END, f"Studente non identificato: '{name}'")
+        
+    # delete the name from the input field
+    search_input.delete(0, tk.END)
     
     text_field.insert(tk.END, "\n")
     write_to_file(
