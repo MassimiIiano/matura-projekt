@@ -1,6 +1,6 @@
 import os
 import qrcode
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont
 
 class Student:
     def __init__(self, id: str, name: str, surname: str, classe: str, presences: list[int], emails: list[str]):
@@ -13,39 +13,38 @@ class Student:
         self.qr_path: str = os.getenv('DATA') + os.getenv('QR')
 
     def gen_qrcode(self):
-        """create qrcode file"""
-        qr_content = self.name + " " + self.surname
-        qr_image = qrcode.make(qr_content)
-        qr_size = 200  # adjust the size of the QR code as needed
+        # Set dimensions for the output image
+        card_size = (600, 375)  # width, height
+        qr_size = 250  # width and height of the QR code
+        text_height = 60  # height of the text below the QR code
+        space = 20  # extra space between the QR code and the text
         
-        # scale the QR code to the specified size
+        # Create a new image with white background
+        canvas = Image.new("RGB", card_size, color="white")
+        
+        # Create QR code image
+        qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=5, border=2)
+        qr.add_data(f"{self.name} {self.surname}")
+        qr.make(fit=True)
+        qr_image = qr.make_image(fill_color="black", back_color="white")
+        
+        # Calculate position of the QR code on the canvas
+        qr_pos = ((card_size[0]-qr_size)//2, (card_size[1]-qr_size-text_height-space)//2)
+        
+        # Resize the QR code to a fixed size and paste it onto the canvas
         qr_image = qr_image.resize((qr_size, qr_size))
+        canvas.paste(qr_image, qr_pos)
         
-        # create a white card image with the specified size
-        card_width = 300  # adjust the width of the card as needed
-        card_height = 400  # adjust the height of the card as needed
-        padding = 20  # adjust the padding as needed
-        card_image = Image.new('RGB', (card_width, card_height), color='white')
+        # Add name and surname below the QR code
+        draw = ImageDraw.Draw(canvas)
+        name_pos = (card_size[0]//2, qr_pos[1]+qr_size+space)
+        font = ImageFont.truetype("arial.ttf", size=20)
+        draw.text(name_pos, f"{self.name} {self.surname}", font=font, fill="black", anchor="ms")
         
-        # calculate the position to center the QR code and paste it onto the card
-        qr_x = (card_width - qr_size) // 2
-        qr_y = (card_height - qr_size - padding) // 2
-        card_image.paste(qr_image, (qr_x, qr_y))
+        # Save image to file
+        image_path = os.path.join(self.qr_path, f"{self.name}{self.surname}.png")
+        canvas.save(image_path)
         
-        # write the name and surname at the bottom of the card
-        draw = ImageDraw.Draw(card_image)
-        name_surname = self.name + " " + self.surname
-        font = ImageFont.truetype("arial.ttf", 20)  # adjust the font and size as needed
-        text_width, text_height = draw.textsize(name_surname, font=font)
-        text_x = (card_width - text_width) // 2
-        text_y = qr_y + qr_size + padding
-        draw.text((text_x, text_y), name_surname, font=font, fill=(0, 0, 0))
-        
-        # save the image with a filename that includes the QR content
-        filename = self.qr_path + '/' + self.name + self.surname + ".png"
-        card_image.save(filename)
-        
-    
     def get_emails(self):
         return self.emails
 
