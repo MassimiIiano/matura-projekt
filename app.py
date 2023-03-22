@@ -1,9 +1,6 @@
 import os
 import sys
 import tkinter as tk
-from reportlab.lib.pagesizes import A4, landscape
-from reportlab.pdfgen import canvas
-from PIL import Image
 from fpdf import FPDF
 
 sys.path.append(os.getenv('ROOT'))
@@ -68,11 +65,13 @@ def convert_to_pdf(png_files: list[str], pdf_file: str):
             pdf.image(image, x, y, w, h, type='PNG')
             x += w
             
-        # if image doesn't fit in row add new row
+        # see fi image fits in next row
         else:
+            # see if new page is necessary
             if y + h > page_h:
                 pdf.add_page()
                 x, y = 0, 0
+            # 
             else:
                 y += h
                 x = 0
