@@ -54,26 +54,31 @@ def convert_to_pdf(png_files: list[str], pdf_file: str):
     page_w, page_h = 210, 297  # mm
     
     # Create a new PDF document
-    pdf = FPDF()
+    pdf = FPDF(orientation='P', unit='mm', format='A4')
+    pdf.set_margins(0, 0, 0)
+    pdf.add_page()
     
     # Iterate over the PNG files and add them to the PDF
     x, y = 0, 0
+    
     for image in png_files:
-        # Check if there is enough space to add the image to the current page
-        if x + w <= page_w and y + h <= page_h:
+        # if immage fits in row add image
+        if x + w < page_w and y + h < page_h:
             # Add the image to the current page
-            pdf.add_page()
-            pdf.image(image, x, y, w, h)
+            pdf.image(image, x, y, w, h, type='PNG')
             x += w
-        else:
-            # There is no more space on the current page, start a new page
-            x = 0
+            
+        # if image doesn't fit in row add new row
+        elif x + w < page_w:
+            
             y += h
+            
+            # if you can't add image to new row add new page
             if y + h > page_h:
-                # There is no more space on the current page, start a new page
                 pdf.add_page()
                 x, y = 0, 0
-            pdf.image(image, x, y, w, h)
+            
+            pdf.image(image, x, y, w, h, type='PNG')
             x += w
             
     # Save the PDF document
