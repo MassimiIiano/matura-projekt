@@ -1,7 +1,10 @@
 import os
 import smtplib
+from datetime import date
 from email.mime.text import MIMEText
-from student import Student
+from logic.fetch.fetch import get_absences, get_presences, get_undefined
+from logic.student.student import Student
+
 
 # TODO shod work, but needs testing with paolo 
 def send_email(to: list[str], content: str, subject: str) -> None:
@@ -41,19 +44,26 @@ def send_report(present: list[Student], absent: list[Student], undef: list[str])
     # TODO: send mails
     msg = absent + sep + undefined + sep + present
     
-    # send_email()
+    send_email(os.getenv('RECEIVER_EMAIL'), msg, "Report Mensa")
     
 
 # TODO: implement 
 def notify_parrent(student: Student) -> None:
     """Sends a Email in witch it informs about the absence of a student"""
-    pass
+    for parent in student.emails:
+        send_email(parent, f"Lo/la studente/essa {student.name} {student.surname} e stata registrato/a come assente il {date.today()}", f"Assenza in Mensa il {date.today()}")
+        
 
 def report():
     # TODO: finish whew you have acces to mail server
     # setnd report to personal
     send_report(get_presences(), get_absences(), get_undefined())
 
+    # notify parents if student has missed mensa
+    for student in get_absences():
+        notify_parrent(student)
+
+def notify():
     # notify parents if student has missed mensa
     for student in get_absences():
         notify_parrent(student)
