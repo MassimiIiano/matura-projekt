@@ -2,6 +2,7 @@ import os
 import sys
 import tkinter as tk
 from fpdf import FPDF
+from logic.mail.mail import notify, report
 
 sys.path.append(os.getenv('ROOT'))
 
@@ -141,11 +142,11 @@ def main():
 
 def show_pdf():
     # open the pdf file saved in the env file
-    os.system(f"start {os.getenv('PDF_PATH')}")
+    os.system(f"start {os.getenv('DATA') + os.getenv('PDF', '/pdf') + '/cards.pdf'}")
     
 def send_emails():
-    # TODO: Implement this function
-    pass
+    report()
+    notify()
 
 
 if __name__ == "__main__":
