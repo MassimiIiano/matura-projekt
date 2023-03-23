@@ -1,9 +1,12 @@
 import os
 import sys
+from dotenv import load_dotenv
 import tkinter as tk
 from fpdf import FPDF
 from logic.mail.mail import notify, report
 
+# load env variables
+load_dotenv()
 sys.path.append(os.getenv('ROOT'))
 
 from logic.reader.reader import repeat_function, write_to_file, create_mensa_file
@@ -13,7 +16,7 @@ from logic.fetch.fetch import get_student_by_name, import_students
 def setup():
     # create folders to store data
     paths = [
-        os.getenv('DATA') + os.getenv('LOGS', '/logs'),
+        os.getenv('DATA') + os.getenv('LOGS', '/log'),
         os.getenv('DATA') + os.getenv('QR', '/qrcodes'),
         os.getenv('DATA') + os.getenv('PDF', '/pdf'),
     ]
@@ -76,6 +79,12 @@ def convert_to_pdf(png_files: list[str], pdf_file: str):
             else:
                 y += h
                 x = 0
+                
+        # Create a pdf for every image
+        pdf_single = FPDF(orientation='L', unit='mm', format='A4')
+        pdf_single.add_page()
+        pdf_single.image(image, 0, 0, w, h, type='PNG')
+        pdf_single.output(image.replace('.png', '.pdf'), "F")
 
             
             
@@ -122,7 +131,7 @@ def main():
 
     search_input = tk.Entry(search_frame)
     search_input.pack(side="left", fill="x", expand=True)
-    search_input.bind("<Return>", log_student)  # bind <Return> event to log_student function
+    search_input.bind("<Return>",lambda event: log_student(event, text_field, search_input))  # bind <Return> event to log_student function
 
     search_button = tk.Button(search_frame, text="Search", command=lambda: log_student(None, text_field, search_input))
     search_button.pack(side="right")

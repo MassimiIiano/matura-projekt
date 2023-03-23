@@ -4,7 +4,9 @@ from datetime import date
 from email.mime.text import MIMEText
 from logic.fetch.fetch import get_absences, get_presences, get_undefined
 from logic.student.student import Student
-
+from dotenv import load_dotenv
+# load env variables
+load_dotenv()
 
 # TODO TEST ALLL FLUNCTIONS
 

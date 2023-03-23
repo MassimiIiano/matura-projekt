@@ -2,7 +2,9 @@ from datetime import datetime
 import os
 import time
 import threading
-
+from dotenv import load_dotenv
+# load env variables
+load_dotenv()
 
 class Reader():
     active = False
@@ -27,9 +29,7 @@ class Reader():
             
 def accept(name: str):
     write_to_file(
-        os.getenv('DATA') + 
-        os.getenv('LOGS') + 
-        "/" + create_mensa_file(), 
+        create_mensa_file(), 
         name
     )
 
@@ -39,13 +39,12 @@ def write_to_file(path, data):
         f.write(data + '\n')
         f.close()
 
-
+# TODO Test this function
 def create_mensa_file():
     # generate filename
     now = datetime.now()
-    file_path = os.getenv('DATA') + os.getenv('LOGS') + now.strftime('%d-%m-%Y') + '.csv'
-    # TODO change to this, but make shore that it works with everything
-    # file_path = os.getenv('DATA') + os.getenv('LOGS') + '/log' + now.strftime('%d-%m-%Y') + '.csv'
+    # file_path = os.getenv('DATA') + os.getenv('LOGS') + now.strftime('%d-%m-%Y') + '.csv'
+    file_path = os.getenv('DATA') + os.getenv('LOGS') + '/log' + now.strftime('%d-%m-%Y') + '.csv'
 
     # create file if not exists
     try:

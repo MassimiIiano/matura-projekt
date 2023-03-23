@@ -4,7 +4,9 @@ import sys
 import pandas as pd
 import re
 import os
-
+from dotenv import load_dotenv
+# load env variables
+load_dotenv()
 sys.path.append(os.getenv('ROOT'))
 
 from logic.student.student import Student
@@ -13,7 +15,7 @@ def get_mensa_list():
     """Returns an array of the names of the student that did go to the mensa doday"""
     res = []
     # open mensa file
-    with open('data/mensa/mensa' + datetime.now().strftime("%d-%m-%Y") + ".csv", 'r') as f:
+    with open(os.getenv('DATA') + os.getenv('LOGS', '/log') +'/log' + datetime.now().strftime("%d-%m-%Y") + ".csv", 'r') as f:
         lines = f.readlines()
         
     # clear name of students

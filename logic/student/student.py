@@ -1,6 +1,9 @@
 import os
 import qrcode
 from PIL import Image, ImageDraw, ImageFont
+from dotenv import load_dotenv
+# load env variables
+load_dotenv()
 
 class Student:
     def __init__(self, id: str, name: str, surname: str, classe: str, presences: list[int], emails: list[str]):
