@@ -35,7 +35,7 @@ def setup():
     png_files: list[str] = [image_directory + '/' + f for f in os.listdir(image_directory) if f.endswith('.png')]
 
     # Create PDF document
-    pdf_file: str = os.getenv('DATA') + os.getenv('PDF', '/pdf') + "/cards.pdf"
+    pdf_file: str = os.getenv('DATA') + os.getenv('PDF', '/pdf') + "/.cards.pdf"
 
 
     convert_to_pdf(png_files, pdf_file)
@@ -142,7 +142,7 @@ def main():
 
 def show_pdf():
     # open the pdf file saved in the env file
-    os.system(f"start {os.getenv('DATA') + os.getenv('PDF', '/pdf') + '/cards.pdf'}")
+    os.system(f"start {os.getenv('DATA') + os.getenv('PDF', '/pdf') + '/.cards.pdf'}")
     
 def send_emails():
     report()
